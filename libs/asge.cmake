@@ -18,7 +18,8 @@
                     => GameEngine   static library
 
     NB: You should not need to edit this file, unless adding new libraries to your game ]]
-if (NOT TARGET ASGE)
+OPTION(ENABLE_ASGE "Adds ASGE support to the Project" OFF)
+if (ENABLE_ASGE AND NOT TARGET ASGE)
   message(STATUS "##### ASGE SETUP #####")
   add_library(ASGE UNKNOWN IMPORTED)
   set_target_properties(ASGE PROPERTIES IMPORTED_GLOBAL TRUE)
@@ -76,7 +77,7 @@ if (NOT TARGET ASGE)
                  PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
     message(STATUS "libGameEngine: " ${libGameEngine})
     
-    if (WIN32)
+    if(WIN32)
       find_file(GameEngineDLL
                 NAMES GameEngine${POSTFIX}.dll
                 PATHS ${ASGE_BIN_DIRECTORY}
@@ -84,14 +85,14 @@ if (NOT TARGET ASGE)
                 NO_DEFAULT_PATH)
       message(STATUS "GameEngineDLL: " ${GameEngineDLL})
       set_property(TARGET ASGE PROPERTY IMPORTED_LOCATION ${GameEngineDLL})
-    else ()
+    else()
       set_property(TARGET ASGE PROPERTY IMPORTED_LOCATION ${libGameEngine})
-    endif ()
-  else ()
+    endif()
+  else()
     ## static builds are hideous
     find_library(libFreetype REQUIRED NAMES freetype${POSTFIX} PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
-    find_library(libPhysFS REQUIRED NAMES physfs-static${POSTFIX} PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
-    find_library(libPhysFS++ REQUIRED NAMES physfscpp-static${POSTFIX} PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
+    find_library(libPhysFS REQUIRED NAMES physfs${POSTFIX} physfs-static${POSTFIX} PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
+    find_library(libPhysFS++ REQUIRED NAMES physfscpp${POSTFIX} physfscpp-static${POSTFIX} PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
     find_library(libGLFW REQUIRED NAMES glfw3${POSTFIX} PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
     find_library(libGLAD REQUIRED NAMES glad${POSTFIX} PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
     
@@ -125,7 +126,7 @@ if (NOT TARGET ASGE)
     list(APPEND LINK_LIBS ${libGLAD} ${libGLFW} ${libFreetype} ${libPhysFS++} ${libPhysFS} ${OPENGL_LIBRARIES})
     
     # mac specific libraries
-    if (PLATFORM STREQUAL "osx")
+    if (PLATFORM MATCHES "OSX")
       find_library(IOKIT IOKit)
       find_library(COCOA Cocoa)
       find_library(COREVIDEO CoreVideo)
@@ -140,11 +141,11 @@ if (NOT TARGET ASGE)
            ${AUDIO_TBOX}
            ${COCOA}
            ${COREVIDEO}
-           ${IOKIT})
+           ${IOKIT} )
     endif ()
     
     # linux specific libraries
-    if (PLATFORM STREQUAL "linux")
+    if (PLATFORM MATCHES "LINUX")
       list(APPEND LINK_LIBS
            ${X11_LIBRARIES}
            ${X11_Xi_LIB}
@@ -164,7 +165,6 @@ if (NOT TARGET ASGE)
         ${LINK_LIBS})
   endif ()
   
-  message(${asge_SOURCE_DIR})
   target_include_directories(
       ASGE
       SYSTEM INTERFACE
@@ -180,7 +180,7 @@ endif ()
 function(add_asge_dependency NAME)
   add_dependencies(${NAME} ASGE)
   target_link_libraries(${NAME} PRIVATE ASGE)
-  
+
   if (BUILD_SHARED_LIBS AND WIN32)
     get_target_property(ASGE_DLL ASGE IMPORTED_LOCATION)
     add_custom_command(
@@ -190,4 +190,3 @@ function(add_asge_dependency NAME)
         $<TARGET_FILE_DIR:${NAME}>)
   endif ()
 endfunction()
-
