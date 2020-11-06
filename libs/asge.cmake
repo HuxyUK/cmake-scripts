@@ -139,10 +139,12 @@ if (ENABLE_ASGE AND NOT TARGET ASGE)
       find_package(X11 REQUIRED)
       find_package(ZLIB REQUIRED)
       find_package(BZip2 REQUIRED)
+      find_package(PNG REQUIRED)
   
       message(STATUS "libX11:        " ${X11_LIBRARIES})
       message(STATUS "libZLIB:       " ${ZLIB_LIBRARIES})
       message(STATUS "libBZip2:      " ${BZIP2_LIBRARIES})
+      message(STATUS "libPNG:        " ${PNG_LIBRARIES})
 
       list(APPEND LINK_LIBS
            ${X11_LIBRARIES}
@@ -153,6 +155,7 @@ if (ENABLE_ASGE AND NOT TARGET ASGE)
            ${X11_Xcursor_LIB}
            ${ZLIB_LIBRARIES}
            ${BZIP2_LIBRARIES}
+           ${PNG_LIBRARIES}
            ${CMAKE_DL_LIBS}
            harfbuzz pthread)   #threading
     endif ()
