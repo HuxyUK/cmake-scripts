@@ -37,7 +37,9 @@ endif()
 
 find_program(CLANG_TIDY
              NAMES clang-tidy-12 clang-tidy-11 clang-tidy-10 clang-tidy-9 clang-tidy-8 clang-tidy
-             HINTS ${CMAKE_SOURCE_DIR}/tools/*/*/ )
+             HINTS
+             "${CMAKE_SOURCE_DIR}/tools/*/*/"
+             "$ENV{ProgramFiles}\\LLVM\\bin")
 
 if(CLANG_TIDY)
   file(GLOB_RECURSE ALL_CXX_SOURCE_FILES
@@ -66,7 +68,7 @@ if(CLANG_TIDY)
                NAMES run-clang-tidy-11.py run-clang-tidy-10.py
                HINTS ${CMAKE_SOURCE_DIR}/tools/*/ )
   
-  if(Python3_FOUND)
+  if(Python3_FOUND AND RUN_CLANG_TIDY)
     include(ProcessorCount)
     ProcessorCount(CPU_CORES)
     
