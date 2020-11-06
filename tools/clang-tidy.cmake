@@ -41,14 +41,18 @@ find_program(CLANG_TIDY
 
 if(CLANG_TIDY)
   file(GLOB_RECURSE ALL_CXX_SOURCE_FILES
-       ${PROJECT_SOURCE_DIR}/app/*.[chi]pp
-       ${PROJECT_SOURCE_DIR}/app/*.[h]
-       ${PROJECT_SOURCE_DIR}/gamelib/.[chi]pp
-       ${PROJECT_SOURCE_DIR}/gamelib/*.[h]
-       ${PROJECT_SOURCE_DIR}/source/*.[chi]pp
-       ${PROJECT_SOURCE_DIR}/source/*.[ch]
-       ${PROJECT_SOURCE_DIR}/src/*.[chi]pp
-       ${PROJECT_SOURCE_DIR}/src/*.[ch] )
+      ${PROJECT_SOURCE_DIR}/app/*.[chi]pp
+      ${PROJECT_SOURCE_DIR}/app/*.[h]
+      ${PROJECT_SOURCE_DIR}/gamelib/.[chi]pp
+      ${PROJECT_SOURCE_DIR}/gamelib/*.[h]
+      ${PROJECT_SOURCE_DIR}/lib/*.[chi]pp
+      ${PROJECT_SOURCE_DIR}/lib/*.[chi]pp
+      ${PROJECT_SOURCE_DIR}/libs/*.[chi]pp
+      ${PROJECT_SOURCE_DIR}/libs/*.[chi]pp
+      ${PROJECT_SOURCE_DIR}/source/*.[chi]pp
+      ${PROJECT_SOURCE_DIR}/source/*.[ch]
+      ${PROJECT_SOURCE_DIR}/src/*.[chi]pp
+      ${PROJECT_SOURCE_DIR}/src/*.[ch] )
   
   #file(GLOB_RECURSE
   #        ALL_CXX_SOURCE_FILES
