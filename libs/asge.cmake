@@ -100,16 +100,6 @@ if (ENABLE_ASGE AND NOT TARGET ASGE)
     find_package(OpenGL REQUIRED)
     message(STATUS "libOpenGL:     " ${OPENGL_LIBRARIES})
     
-    if (PLATFORM STREQUAL "linux")
-      find_package(X11 REQUIRED)
-      find_package(ZLIB REQUIRED)
-      find_package(BZip2 REQUIRED)
-      
-      message(STATUS "libX11:        " ${X11_LIBRARIES})
-      message(STATUS "libZLIB:       " ${ZLIB_LIBRARIES})
-      message(STATUS "libBZip2:      " ${BZIP2_LIBRARIES})
-    endif ()
-    
     find_library(libGameEngine REQUIRED
                  NAMES libGameEngine${POSTFIX}.a libGameEngine${POSTFIX}.lib GameEngine${POSTFIX}.lib ASGE
                  PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
@@ -146,6 +136,14 @@ if (ENABLE_ASGE AND NOT TARGET ASGE)
     
     # linux specific libraries
     if (PLATFORM MATCHES "LINUX")
+      find_package(X11 REQUIRED)
+      find_package(ZLIB REQUIRED)
+      find_package(BZip2 REQUIRED)
+  
+      message(STATUS "libX11:        " ${X11_LIBRARIES})
+      message(STATUS "libZLIB:       " ${ZLIB_LIBRARIES})
+      message(STATUS "libBZip2:      " ${BZIP2_LIBRARIES})
+
       list(APPEND LINK_LIBS
            ${X11_LIBRARIES}
            ${X11_Xi_LIB}
