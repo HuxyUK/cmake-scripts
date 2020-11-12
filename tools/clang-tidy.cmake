@@ -36,70 +36,72 @@ if(TARGET ClangTidy)
 endif()
 
 find_program(CLANG_TIDY
-             NAMES clang-tidy-12 clang-tidy-11 clang-tidy-10 clang-tidy-9 clang-tidy-8 clang-tidy
-             HINTS
-             "${CMAKE_SOURCE_DIR}/tools/*/*/"
-             "$ENV{ProgramFiles}\\LLVM\\bin")
+        NAMES clang-tidy-12 clang-tidy-11 clang-tidy-10 clang-tidy-9 clang-tidy-8 clang-tidy
+        HINTS
+        "${CMAKE_SOURCE_DIR}/tools/*/*/"
+        "$ENV{ProgramFiles}\\LLVM\\bin")
 
 if(CLANG_TIDY)
   file(GLOB_RECURSE ALL_CXX_SOURCE_FILES
-      ${PROJECT_SOURCE_DIR}/app/*.[chi]pp
-      ${PROJECT_SOURCE_DIR}/app/*.[h]
-      ${PROJECT_SOURCE_DIR}/gamelib/.[chi]pp
-      ${PROJECT_SOURCE_DIR}/gamelib/*.[h]
-      ${PROJECT_SOURCE_DIR}/lib/*.[chi]pp
-      ${PROJECT_SOURCE_DIR}/lib/*.[chi]pp
-      ${PROJECT_SOURCE_DIR}/libs/*.[chi]pp
-      ${PROJECT_SOURCE_DIR}/libs/*.[chi]pp
-      ${PROJECT_SOURCE_DIR}/source/*.[chi]pp
-      ${PROJECT_SOURCE_DIR}/source/*.[ch]
-      ${PROJECT_SOURCE_DIR}/src/*.[chi]pp
-      ${PROJECT_SOURCE_DIR}/src/*.[ch] )
-  
+          ${PROJECT_SOURCE_DIR}/app/*.[chi]pp
+          ${PROJECT_SOURCE_DIR}/app/*.[h]
+          ${PROJECT_SOURCE_DIR}/gamelib/*.[chi]pp
+          ${PROJECT_SOURCE_DIR}/gamelib/*.[h]
+          ${PROJECT_SOURCE_DIR}/lib/*.[chi]pp
+          ${PROJECT_SOURCE_DIR}/lib/*.[ch]
+          ${PROJECT_SOURCE_DIR}/libs/*.[chi]pp
+          ${PROJECT_SOURCE_DIR}/libs/*.[ch]
+          ${PROJECT_SOURCE_DIR}/source/*.[chi]pp
+          ${PROJECT_SOURCE_DIR}/source/*.[ch]
+          ${PROJECT_SOURCE_DIR}/src/*.[chi]pp
+          ${PROJECT_SOURCE_DIR}/src/*.[ch])
+
   #file(GLOB_RECURSE
   #        ALL_CXX_SOURCE_FILES
   #        *.[chi]pp *.[chi]xx *.cc *.hh *.ii *.[CHI]
   #        )
-  
-  
+
+
   find_package(Python3 QUIET COMPONENTS Interpreter )
-  
+
   find_program(RUN_CLANG_TIDY
-               NAMES run-clang-tidy-11.py run-clang-tidy-10.py
-               HINTS ${CMAKE_SOURCE_DIR}/tools/*/ )
-  
+          NAMES run-clang-tidy-12.py run-clang-tidy-11.py run-clang-tidy-10.py run-clang-tidy.py
+          HINTS ${CMAKE_SOURCE_DIR}/tools/*/
+          "$ENV{ProgramFiles}\\LLVM\\share\\clang")
+
   if(Python3_FOUND AND RUN_CLANG_TIDY)
     include(ProcessorCount)
     ProcessorCount(CPU_CORES)
-    
+
     list(APPEND RUN_CLANG_TIDY_BIN_ARGS
-         -clang-tidy-binary ${CLANG_TIDY}
-         -p ${CMAKE_BINARY_DIR}
-         -quiet
-         -format
-         -j ${CPU_CORES}
-         -extra-arg=\"-std=c++20\"
-         -header-filter=".*"           #"\"-header-filter=.*(app|GameLib|source).*\""
-         ${ALL_CXX_SOURCE_FILES} )
-    
+            -clang-tidy-binary ${CLANG_TIDY}
+            -p ${CMAKE_BINARY_DIR}
+            -quiet
+            -format
+            -style=file
+            -j=${CPU_CORES}
+            -extra-arg-before=\"-std:c++17\"
+            -header-filter=\".*\"           #"\"-header-filter=.*(app|GameLib|source).*\""
+            ${ALL_CXX_SOURCE_FILES} )
+
     add_custom_target(
-        ClangTidy
-        COMMAND ${Python3_EXECUTABLE} ${RUN_CLANG_TIDY} ${RUN_CLANG_TIDY_BIN_ARGS}
-        COMMENT "running clang tidy"
-        WORKING_DIR "${CMAKE_SOURCE_DIR}")
+            ClangTidy
+            COMMAND ${Python3_EXECUTABLE} ${RUN_CLANG_TIDY} ${RUN_CLANG_TIDY_BIN_ARGS}
+            COMMENT "running clang tidy"
+            WORKING_DIR "${CMAKE_SOURCE_DIR}")
   else()
     list(APPEND CLANG_TIDY_BIN_ARGS
-         -p=${CMAKE_BINARY_DIR}
-         -quiet
-         -header-filter=.*           #"\"-header-filter=.*(app|GameLib|source).*\""
-         -format-style=file
-         --extra-arg=\"-std=c++20\"
-         ${ALL_CXX_SOURCE_FILES} )
-    
+            -p=${CMAKE_BINARY_DIR}
+            --quiet
+            --header-filter=.*           #"\"-header-filter=.*(app|GameLib|source).*\""
+            --format-style=file
+            --extra-arg-before=\"-std:c++17\"
+            ${ALL_CXX_SOURCE_FILES} )
+
     add_custom_target(
-        ClangTidy
-        COMMAND ${CLANG_TIDY} ${CLANG_TIDY_BIN_ARGS}
-        COMMENT "running clang tidy" )
+            ClangTidy
+            COMMAND ${CLANG_TIDY} ${CLANG_TIDY_BIN_ARGS}
+            COMMENT "running clang tidy" )
   endif()
 else()
   message("Clang-Tidy could not be located. Static analysis failed")
