@@ -16,8 +16,8 @@ function(set_target_build_flags tgt)
             "-Wall" "-Wextra" "-Wshadow" "-Wnon-virtual-dtor"
             "-Wold-style-cast" "-Wunused" "-Wno-documentation"
             "-Woverloaded-virtual" "-Wpedantic" "-Wconversion"
-            "-Wdouble-promotion" "-Wundef" "-Wconversion"
-            "-Wnull-dereference" "-Wno-c++98-compat" "-Wredundant-move"
+            "-Wdouble-promotion" "-Wundef" "-Wnull-dereference"
+            "-Wno-c++98-compat" "-Wredundant-move"
             "-Wpessimizing-move" "-Wno-c++98-compat-pedantic"
             "-Werror" )
 

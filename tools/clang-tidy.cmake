@@ -61,7 +61,6 @@ if(CLANG_TIDY)
   #        *.[chi]pp *.[chi]xx *.cc *.hh *.ii *.[CHI]
   #        )
 
-
   find_package(Python3 QUIET COMPONENTS Interpreter )
 
   find_program(RUN_CLANG_TIDY
@@ -80,10 +79,14 @@ if(CLANG_TIDY)
             -format
             -style=file
             -j=${CPU_CORES}
-            $<$<BOOL:${WIN32}>:-extra-arg-before=\"-std:c++latest\">
-            $<$<NOT:$<BOOL:${WIN32}>>:-extra-arg-before=\"-std=c++latest\">
-            -header-filter=\".*\"           #"\"-header-filter=.*(app|GameLib|source).*\""
-            ${ALL_CXX_SOURCE_FILES} )
+            -extra-arg-before=\"-std:c++latest\"
+            -header-filter=\".*\")           #"\"-header-filter=.*(app|GameLib|source).*\"" )
+
+    if(WIN32)
+      list(APPEND RUN_CLANG_TIDY_BIN_ARGS -extra-arg-before=\"-std:c++latest\")
+    else()
+      list(APPEND RUN_CLANG_TIDY_BIN_ARGS -extra-arg-before=\"-std=c++latest\")
+    endif()
 
     add_custom_target(
             ClangTidy
@@ -96,9 +99,13 @@ if(CLANG_TIDY)
             --quiet
             --header-filter=.*           #"\"-header-filter=.*(app|GameLib|source).*\""
             --format-style=file
-            $<$<BOOL:${WIN32}>:--extra-arg-before=\"-std:c++latest\">
-            $<$<NOT:$<BOOL:${WIN32}>>:--extra-arg-before=\"-std=c++latest\">
-            ${ALL_CXX_SOURCE_FILES} )
+            ${ALL_CXX_SOURCE_FILES})
+
+    if(WIN32)
+      list(APPEND CLANG_TIDY_BIN_ARGS -extra-arg-before=\"-std:c++latest\")
+    else()
+      list(APPEND CLANG_TIDY_BIN_ARGS -extra-arg-before=\"-std=c++latest\")
+    endif()
 
     add_custom_target(
             ClangTidy
