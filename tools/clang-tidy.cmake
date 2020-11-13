@@ -79,7 +79,6 @@ if(CLANG_TIDY)
             -format
             -style=file
             -j=${CPU_CORES}
-            -extra-arg-before=\"-std:c++latest\"
             -header-filter=\".*\")           #"\"-header-filter=.*(app|GameLib|source).*\"" )
 
     if(WIN32)
