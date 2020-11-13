@@ -80,7 +80,8 @@ if(CLANG_TIDY)
             -format
             -style=file
             -j=${CPU_CORES}
-            -extra-arg-before=\"-std:c++17\"
+            $<$<BOOL:${WIN32}>:-extra-arg-before=\"-std:c++latest\">
+            $<$<NOT:$<BOOL:${WIN32}>>:-extra-arg-before=\"-std=c++latest\">
             -header-filter=\".*\"           #"\"-header-filter=.*(app|GameLib|source).*\""
             ${ALL_CXX_SOURCE_FILES} )
 
@@ -95,7 +96,8 @@ if(CLANG_TIDY)
             --quiet
             --header-filter=.*           #"\"-header-filter=.*(app|GameLib|source).*\""
             --format-style=file
-            --extra-arg-before=\"-std:c++17\"
+            $<$<BOOL:${WIN32}>:--extra-arg-before=\"-std:c++latest\">
+            $<$<NOT:$<BOOL:${WIN32}>>:--extra-arg-before=\"-std=c++latest\">
             ${ALL_CXX_SOURCE_FILES} )
 
     add_custom_target(
