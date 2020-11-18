@@ -79,7 +79,8 @@ if(CLANG_TIDY)
             -format
             -style=file
             -j=${CPU_CORES}
-            -header-filter=\".*\")           #"\"-header-filter=.*(app|GameLib|source).*\"" )
+            -header-filter=\".*\"
+            ${ALL_CXX_SOURCE_FILES})           #"\"-header-filter=.*(app|GameLib|source).*\"" )
 
     if(WIN32)
       list(APPEND RUN_CLANG_TIDY_BIN_ARGS -extra-arg-before=\"-std:c++latest\")
