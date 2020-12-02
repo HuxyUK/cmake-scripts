@@ -19,6 +19,7 @@ function(set_target_build_flags tgt)
             "-Wdouble-promotion" "-Wundef" "-Wnull-dereference"
             "-Wno-c++98-compat" "-Wredundant-move"
             "-Wpessimizing-move" "-Wno-c++98-compat-pedantic"
+            "-Wno-documentation-unknown-command"
             "-Werror" )
 
   elseif (${PLATFORM} MATCHES "MSVC")
