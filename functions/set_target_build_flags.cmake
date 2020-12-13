@@ -20,7 +20,7 @@ function(set_target_build_flags tgt)
             "-Wno-c++98-compat" "-Wredundant-move"
             "-Wpessimizing-move" "-Wno-c++98-compat-pedantic"
             "-Wno-documentation-unknown-command"
-            "-Werror" )
+            "-Werror" "-ferror-limit=100" )
 
   elseif (${PLATFORM} MATCHES "MSVC")
     target_compile_options(${tgt} PRIVATE /Wall /WX)

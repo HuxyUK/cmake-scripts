@@ -35,7 +35,7 @@ if(ENABLE_SOUND)
   FetchContent_Declare(
       soloud
       GIT_REPOSITORY https://github.com/HuxyUK/soloud.git
-      GIT_TAG        3fd7a4751cae4da38a2e50000eeecad9be7ce543)
+      GIT_TAG        master)
   
   message(STATUS "+ CONFIGURING SOLOUD....")
   list(APPEND CMAKE_MESSAGE_INDENT "  ")
@@ -45,7 +45,6 @@ if(ENABLE_SOUND)
     add_subdirectory(${soloud_SOURCE_DIR}/contrib ${soloud_BINARY_DIR})
   endif()
   list(POP_BACK CMAKE_MESSAGE_INDENT)
-  
   message(STATUS "+ DONE")
   list(POP_BACK CMAKE_MESSAGE_INDENT)
 endif()
