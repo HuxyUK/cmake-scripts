@@ -7,7 +7,8 @@ cmake_minimum_required(VERSION 3.14)
 ## To enable KISSNET support override the default option setting
 OPTION(ENABLE_KISSNET "Adds C++17 Network Sockets" OFF)
 if (ENABLE_KISSNET)
-  message(STATUS "##### KISSNET SETUP #####:")
+  #message(STATUS "##### KISSNET SETUP #####:")
+  message(STATUS "KISSNET:")
   list(APPEND CMAKE_MESSAGE_INDENT "  ")
   message(VERBOSE "A lightweight, header only, crossplatform C++17 socket library.")
 
@@ -30,7 +31,7 @@ if (ENABLE_KISSNET)
         kissnet
         SYSTEM INTERFACE
         ${kissnet_SOURCE_DIR})
-    message(STATUS "KISSNET INCLUDE DIR: ${kissnet_SOURCE_DIR}")
+    message(STATUS "INCLUDE DIR: ${kissnet_SOURCE_DIR}")
 
     # apparently this helps with some of dem IDEs
     target_sources(kissnet INTERFACE ${kissnet_SOURCE_DIR}/kissnet.hpp)

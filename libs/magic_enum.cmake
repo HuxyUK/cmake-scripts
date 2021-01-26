@@ -31,7 +31,7 @@ if(ENABLE_MAGIC_ENUM)
         magic_enum
         SYSTEM INTERFACE
         ${magic_enum_SOURCE_DIR}/include)
-    message(DEBUG "READER_WRITER_QUEUE INCLUDE DIR: ${magic_enum_SOURCE_DIR}")
+    message(DEBUG "MAGIC_ENUM INCLUDE DIR: ${magic_enum_SOURCE_DIR}")
     
     # apparently this helps with some of dem IDEs
     target_sources(magic_enum INTERFACE ${magic_enum_SOURCE_DIR}/include/magic_enum.hpp)

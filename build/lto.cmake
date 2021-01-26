@@ -17,7 +17,7 @@ else()
 endif ()
 
 if (LTOAvailable)
-  message(STATUS "LINK-TIME OPTIMIZATION: \t ON")
+  message(STATUS "LINK-TIME OPTIMIZATION: \t\t ON")
   set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
 else()
   message(STATUS "LINK-TIME OPTIMIZATION: \t\t OFF" )
