@@ -103,7 +103,7 @@ if [[ -z "$exe" ]];
 fi
 
 print "Performing code style checks"
-python_check
+#python_check
 if [[ "$exe" ]];
   then
     while read -r file; do
