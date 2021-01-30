@@ -30,18 +30,21 @@ if( ENABLE_JSON )
         jsonlib
         SYSTEM INTERFACE
         ${json_SOURCE_DIR})
-    
+
     message(DEBUG "JSON INCLUDE DIR: ${json_SOURCE_DIR}")
 
     ## fix for clang-cl generating warnings on SYSTEM includes
-    if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND "x${CMAKE_CXX_SIMULATE_ID}" STREQUAL "xMSVC")
-      target_compile_options(
-              jsonlib INTERFACE
-              "-Wno-newline-eof"
-              "-Wno-sign-conversion"
-              "-Wno-switch-enum"
-              "-Wno-covered-switch-default")
-    endif ()
+    # 3.19.0
+    if(${CMAKE_VERSION} VERSION_LESS "3.19.0")
+      if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND "x${CMAKE_CXX_SIMULATE_ID}" STREQUAL "xMSVC")
+        target_compile_options(
+                jsonlib INTERFACE
+                "-Wno-newline-eof"
+                "-Wno-sign-conversion"
+                "-Wno-switch-enum"
+                "-Wno-covered-switch-default")
+      endif()
+    endif()
     
     # lets not worry about compile warnings
     list(POP_BACK CMAKE_MESSAGE_INDENT)

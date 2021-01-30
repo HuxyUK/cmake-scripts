@@ -8,6 +8,10 @@
 ## creates a compressed version of the game data ready for publishing ##
 function(add_gamedata TARGET GAMEDATA_FOLDER)
   
+  if(TARGET "${TARGET}-GD")
+    return()
+  endif()
+  
   if(GAMEDATA_FOLDER)
     get_target_property(TARGET_OUTPUT_DIR ${TARGET} RUNTIME_OUTPUT_DIRECTORY)
     

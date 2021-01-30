@@ -1,9 +1,11 @@
 find_program(
-        CMAKE_CXX_CPPCHECK
-        NAMES cppcheck
-        HINTS ${CMAKE_SOURCE_DIR}/tools/cppcheck)
+    CPPCHECK_EXE
+    NAMES cppcheck
+    HINTS
+    "$ENV{ProgramFiles}\\Cppcheck"
+    ${CMAKE_SOURCE_DIR}/tools/cppcheck )
 
-if (CMAKE_CXX_CPPCHECK)
+if (CPPCHECK_EXE)
       include(ProcessorCount)
       ProcessorCount(CPU_CORES)
 
@@ -14,8 +16,8 @@ if (CMAKE_CXX_CPPCHECK)
       endif()
 
       list(
-        APPEND CMAKE_CXX_CPPCHECK
-        "-j ${CPU_CORES}"
+        APPEND CPPCHECK_EXE
+        " -j ${CPU_CORES}"
         "--platform=${CPPCHECK_PLATFORM}"
         "--enable=warning,style,performance,portability"
         "--force"
@@ -29,20 +31,19 @@ if (CMAKE_CXX_CPPCHECK)
         "-iCMakeFiles")
 
       # Check CppCheck version
-#      set(CPP_CHECK_CMD ${CPPCHECK} --version)
-#      execute_process(COMMAND ${CPP_CHECK_CMD}
-#              WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-#              RESULT_VARIABLE CPP_CHECK_RESULT
-#              OUTPUT_VARIABLE CPP_CHECK_VERSION
-#              ERROR_VARIABLE CPP_CHECK_ERROR)
-#
-#      add_custom_target(ANALYZE_CPPCHECK DEPENDS ${PROJECT_NAME}
-#              COMMAND ${CPPCHECK}
-#              WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-#              COMMENT "Static code analysis using ${CPP_CHECK_VERSION}"
-#              )
-     #  endif()
-#      # Run CppCheck from the working directory, as specified in the add_custom_target command below
-#      "." )
+      set(CPP_CHECK_CMD ${CPPCHECK_EXE} --version)
+      execute_process(COMMAND ${CPP_CHECK_CMD}
+              WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+              RESULT_VARIABLE CPP_CHECK_RESULT
+              OUTPUT_VARIABLE CPP_CHECK_VERSION
+              ERROR_VARIABLE CPP_CHECK_ERROR)
 
+      add_custom_target(Cppcheck DEPENDS ${PROJECT_NAME}
+              COMMAND ${CPPCHECK_EXE}
+              WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+              COMMENT "Static code analysis using ${CPP_CHECK_VERSION}")
+
+      if(ENABLE_LIVE_ANALYSIS)
+            set(CMAKE_CXX_CPPCHECK "${CPPCHECK_EXE}")
+      endif()
 endif()
