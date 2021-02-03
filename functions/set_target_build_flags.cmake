@@ -23,7 +23,6 @@ function(set_target_build_flags tgt)
             "-Werror" "-ferror-limit=100" )
 
   elseif (${PLATFORM} MATCHES "MSVC")
-    message(STATUS "dsasd")
     target_compile_options(${tgt} PRIVATE /Wall /WX)
   endif()
 endfunction()
