@@ -8,7 +8,7 @@ function(set_target_build_flags tgt)
             "-Wduplicated-cond" "-Wduplicated-branches" "-Wlogical-op"
             "-Wnull-dereference" "-Wuseless-cast" "-Wredundant-move"
             "-Wpessimizing-move" "-Werror"
-            $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CONFIG:Debug>>:-O0)
+            $<$<BOOL:$<AND:$<COMPILE_LANGUAGE:CXX>,$<CONFIG:Debug>>>:-O0>)
 
   elseif (${PLATFORM} MATCHES "CLANG")
     target_compile_options(

@@ -18,10 +18,10 @@ if (ENABLE_CLANG_FORMAT)
     file(GLOB_RECURSE SOURCE_CODE
          LIST_DIRECTORIES FALSE
          CONFIGURE_DEPENDS
-         ${PROJECT_SOURCE_DIR}/apps/*.[chi]pp
-         ${PROJECT_SOURCE_DIR}/apps/*.[h]
-         ${PROJECT_SOURCE_DIR}/apps/*.[chi]pp
-         ${PROJECT_SOURCE_DIR}/apps/*.[h]
+         ${PROJECT_SOURCE_DIR}/app*/*.[chi]pp
+         ${PROJECT_SOURCE_DIR}/app*/*.[h]
+         ${PROJECT_SOURCE_DIR}/app*/*.[chi]pp
+         ${PROJECT_SOURCE_DIR}/app*/*.[h]
          ${PROJECT_SOURCE_DIR}/include/*.[chi]pp
          ${PROJECT_SOURCE_DIR}/include/*.[ch]
          ${PROJECT_SOURCE_DIR}/src/*.[chi]pp
@@ -38,7 +38,7 @@ if (ENABLE_CLANG_FORMAT)
       add_custom_target(
           ClangFormat
           COMMAND "${CFE}" ${CLANG-FORMAT_ARGS}
-          COMMENT "running clang-format")
+          COMMENT "Code style analysis using ${CFE_VERSION}")
     endif ()
   endif ()
 endif ()

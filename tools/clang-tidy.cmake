@@ -79,8 +79,8 @@ if (CMAKE_VERSION VERSION_GREATER 3.6)
       add_custom_target(
           ClangTidy
           COMMAND ${Python3_EXECUTABLE} ${RUN_CLANG_TIDY} ${RUN_CLANG_TIDY_BIN_ARGS}
-          COMMENT "running clang tidy"
-          WORKING_DIR "${CMAKE_SOURCE_DIR}")
+          WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+          COMMENT "Static code analysis using Python and Clang-Tidy")
     else ()
       list(APPEND CLANG_TIDY_BIN_ARGS
            -p=${CMAKE_BINARY_DIR}
@@ -98,8 +98,8 @@ if (CMAKE_VERSION VERSION_GREATER 3.6)
       add_custom_target(
           ClangTidy
           COMMAND ${CLANG_TIDY} ${CLANG_TIDY_BIN_ARGS}
-          COMMENT "running clang tidy"
-          WORKING_DIR "${CMAKE_SOURCE_DIR}")
+          WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+          COMMENT "Static code analysis using clang-tidy")
     endif ()
     
     if (ENABLE_LIVE_ANALYSIS AND CLANG_TIDY)
