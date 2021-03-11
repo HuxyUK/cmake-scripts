@@ -99,7 +99,7 @@ if (CMAKE_VERSION VERSION_GREATER 3.6)
           ClangTidy
           COMMAND ${CLANG_TIDY} ${CLANG_TIDY_BIN_ARGS}
           WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-          COMMENT "Static code analysis using clang-tidy")
+          COMMENT "Static code analysis using Clang-Tidy")
     endif ()
     
     if (ENABLE_LIVE_ANALYSIS AND CLANG_TIDY)

@@ -42,8 +42,7 @@ if (CPPCHECK_EXE)
               COMMAND ${CPPCHECK_EXE} --project="${CMAKE_BINARY_DIR}/compile_commands.json"
               WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
               COMMENT "Static code analysis using ${CPP_CHECK_VERSION}")
-
-      message(STATUS ${CPPCHECK_EXE})
+      
       if(ENABLE_LIVE_ANALYSIS)
             set(CMAKE_CXX_CPPCHECK "${CPPCHECK_EXE}")
       endif()
