@@ -23,8 +23,12 @@ if (ENABLE_ASGE AND NOT TARGET ASGE)
   message(STATUS "##### ASGE SETUP #####")
   add_library(ASGE UNKNOWN IMPORTED)
   set_target_properties(ASGE PROPERTIES IMPORTED_GLOBAL TRUE)
-  set(ASGE_VERSION "2.0.0-alpha")
-  set(ASGE_VERSION_EXTRA "+5")
+
+  if(NOT ASGE_VERSION)
+    set(ASGE_VERSION "2.0.0-alpha")
+    set(ASGE_VERSION_EXTRA "+5")
+  endif()
+
   set(ASGE_BASEURL "https://github.com/HuxyUK/ASGE/releases/download/v${ASGE_VERSION}")
   
   if (NOT ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug"))
@@ -73,7 +77,7 @@ if (ENABLE_ASGE AND NOT TARGET ASGE)
                  libGameEngine${POSTFIX}.so
                  libGameEngine${POSTFIX}.dylib
                  GameEngine${POSTFIX}.lib
-                 ASGE${POSTFIX}
+                 asge${POSTFIX}
                  PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
     message(STATUS "libGameEngine: " ${libGameEngine})
     
@@ -101,7 +105,7 @@ if (ENABLE_ASGE AND NOT TARGET ASGE)
     message(STATUS "libOpenGL:     " ${OPENGL_LIBRARIES})
     
     find_library(libGameEngine REQUIRED
-                 NAMES libGameEngine${POSTFIX}.a libGameEngine${POSTFIX}.lib GameEngine${POSTFIX}.lib ASGE
+                 NAMES libGameEngine${POSTFIX}.a libGameEngine${POSTFIX}.lib GameEngine${POSTFIX}.lib asge${POSTFIX}
                  PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
     set_property(TARGET ASGE PROPERTY IMPORTED_LOCATION ${libGameEngine})
     
@@ -140,7 +144,7 @@ if (ENABLE_ASGE AND NOT TARGET ASGE)
       find_package(ZLIB REQUIRED)
       find_package(BZip2 REQUIRED)
       find_package(PNG REQUIRED)
-  
+
       message(STATUS "libX11:        " ${X11_LIBRARIES})
       message(STATUS "libZLIB:       " ${ZLIB_LIBRARIES})
       message(STATUS "libBZip2:      " ${BZIP2_LIBRARIES})
@@ -157,7 +161,7 @@ if (ENABLE_ASGE AND NOT TARGET ASGE)
            ${BZIP2_LIBRARIES}
            ${PNG_LIBRARIES}
            ${CMAKE_DL_LIBS}
-           harfbuzz pthread)   #threading
+           harfbuzz brotlidec pthread )   #threading
     endif ()
     
     set_property(
