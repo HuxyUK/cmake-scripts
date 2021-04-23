@@ -6,7 +6,7 @@
     single DLL.
 
     Shared Build    => Executable
-                    => GameEngine.dll
+                    => asge.dll
 
     Static Build    => Executable   static app
                     => OpenGL       static library, provided by OS
@@ -78,12 +78,15 @@ if (ENABLE_ASGE AND NOT TARGET ASGE)
                  libGameEngine${POSTFIX}.dylib
                  GameEngine${POSTFIX}.lib
                  asge${POSTFIX}
+                 asge${POSTFIX}.dll.a
+                 asge${POSTFIX}.so
+                 asge${POSTFIX}.dylib
                  PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
     message(STATUS "libGameEngine: " ${libGameEngine})
     
     if(WIN32)
       find_file(GameEngineDLL
-                NAMES GameEngine${POSTFIX}.dll
+                NAMES GameEngine${POSTFIX}.dll asge${POSTFIX}.dll
                 PATHS ${ASGE_BIN_DIRECTORY}
                 REQUIRED
                 NO_DEFAULT_PATH)
