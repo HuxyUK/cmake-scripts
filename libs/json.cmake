@@ -16,7 +16,7 @@ if( ENABLE_JSON )
   message(STATUS "+ FETCHING JSON....")
   FetchContent_Declare(
       json
-      URL https://github.com/nlohmann/json/releases/download/v3.5.0/include.zip)
+      URL https://github.com/nlohmann/json/releases/download/v3.9.1/include.zip )
   
   FetchContent_GetProperties(json)
   if(NOT json_POPULATED)
@@ -29,9 +29,9 @@ if( ENABLE_JSON )
     target_include_directories(
         jsonlib
         SYSTEM INTERFACE
-        ${json_SOURCE_DIR})
+        ${json_SOURCE_DIR}/single_include)
 
-    message(DEBUG "JSON INCLUDE DIR: ${json_SOURCE_DIR}")
+    message( "JSON INCLUDE DIR: ${json_SOURCE_DIR}")
 
     ## fix for clang-cl generating warnings on SYSTEM includes
     # 3.19.0
