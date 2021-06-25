@@ -27,7 +27,7 @@ function(add_gamedata TARGET GAMEDATA_FOLDER)
     else()
       add_custom_target(
           ${TARGET}-GD
-          COMMAND ${CMAKE_COMMAND} -E tar cfv "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/game.dat" --format=zip -- *
+          COMMAND ${CMAKE_COMMAND} -E tar cfv "${TARGET_OUTPUT_DIR}/game.dat" --format=zip -- *
           WORKING_DIRECTORY ${GAMEDATA_FOLDER}
           BYPRODUCTS "${TARGET_OUTPUT_DIR}/game.dat"
           COMMENT "creating data archive")
