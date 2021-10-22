@@ -1,10 +1,17 @@
 cmake_minimum_required(VERSION 3.14)
 option(ENABLE_TMXLITE "Adds TmxLite library" ON)
+
 if(ENABLE_TMXLITE)
     message(STATUS  "TMXLITE:")
     list(APPEND CMAKE_MESSAGE_INDENT "  ")
     message(VERBOSE "A lightweight C++14 parsing library for tmx map files created with the Tiled map editor. ")
     message(STATUS "+ FETCHING TMXLITE TILED IMPORTER....")
+
+    if(BUILD_SHARED_LIBS)
+        set (TMXLITE_STATIC_LIB "OFF" CACHE INTERNAL "OFF")
+    else()
+        set (TMXLITE_STATIC_LIB "ON"  CACHE INTERNAL "ON")
+    endif()
 
     include(FetchContent)
     FetchContent_Declare(
