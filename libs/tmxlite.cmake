@@ -31,9 +31,9 @@ if(ENABLE_TMXLITE)
 
     set_target_properties(tmxlite PROPERTIES CXX_CLANG_TIDY "")
     set_target_properties(tmxlite PROPERTIES CXX_CPPCHECK   "")
+    set_target_properties(tmxlite PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES $<TARGET_PROPERTY:tmxlite,INTERFACE_INCLUDE_DIRECTORIES>)
 
     if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND ("x${CMAKE_CXX_SIMULATE_ID}" STREQUAL "xMSVC"))
-        message("here i am")
         target_compile_options(tmxlite PRIVATE /EHsc)
     endif()
 
