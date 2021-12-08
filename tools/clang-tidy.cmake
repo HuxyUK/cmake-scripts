@@ -22,7 +22,7 @@ if (CMAKE_VERSION VERSION_GREATER 3.6)
   endif ()
   
   find_program(CLANG_TIDY
-               NAMES clang-tidy-12 clang-tidy-11 clang-tidy-10 clang-tidy-9 clang-tidy-8 clang-tidy
+               NAMES clang-tidy-13 clang-tidy-12 clang-tidy-11 clang-tidy-10 clang-tidy-9 clang-tidy-8 clang-tidy
                HINTS
                "${CMAKE_SOURCE_DIR}/tools/*/*/"
                "$ENV{ProgramFiles}\\LLVM\\bin")

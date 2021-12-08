@@ -2,7 +2,7 @@ OPTION(ENABLE_CLANG_FORMAT "Adds clang-format style as a target" OFF)
 
 if (ENABLE_CLANG_FORMAT)
   find_program(
-      CFE NAMES clang-format clang-format-13 clang-format-12 clang-format-11 clang-format-10
+      CFE NAMES clang-format-13 clang-format-12 clang-format-11 clang-format-10 clang-format
       HINTS
       "${CMAKE_SOURCE_DIR}/tools/*/${PLATFORM}/"
       "$ENV{ProgramFiles}\\LLVM\\bin")
