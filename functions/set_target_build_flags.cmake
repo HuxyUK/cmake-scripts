@@ -20,7 +20,7 @@ function(set_target_build_flags tgt)
             "-Wno-c++98-compat" "-Wredundant-move"
             "-Wpessimizing-move" "-Wno-c++98-compat-pedantic"
             "-Wno-documentation-unknown-command" "-Wno-double-promotion"
-            "-Werror" "-ferror-limit=100")
+            "-Wno-newline-eof" "-Werror" "-ferror-limit=100")
 
     if ("x${CMAKE_CXX_SIMULATE_ID}" STREQUAL "xMSVC")
       target_compile_options(${tgt} PRIVATE "/EHsc")

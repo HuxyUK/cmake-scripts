@@ -4,7 +4,7 @@ function(configure_target NAME INCLUDE_DIR HEADER_LIST LINK_LIBS)
     set_target_properties(${NAME} PROPERTIES CXX_EXTENSIONS            OFF)
    #set_target_properties(${GAME} PROPERTIES POSITION_INDEPENDENT_CODE FALSE)
 
-    target_include_directories(${NAME} PUBLIC ${INCLUDE_DIR})
+    target_include_directories(${NAME} INTERFACE ${INCLUDE_DIR})
     target_compile_features(${NAME} PUBLIC cxx_std_20)
     source_group(TREE "${INCLUDE_DIR}" PREFIX "Header Files" FILES ${HEADER_LIST})
 

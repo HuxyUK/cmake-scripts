@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-option(ENABLE_TMXLITE "Adds TmxLite library" ON)
+option(ENABLE_TMXLITE "Adds TmxLite library" OFF)
 
 if(ENABLE_TMXLITE)
     message(STATUS  "TMXLITE:")
