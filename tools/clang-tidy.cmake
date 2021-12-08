@@ -5,7 +5,7 @@
 # .clang-tidy file. Clang-Tidy can also make attempts to resolve the issues
 # automatically. To enable this behaviour set the CLANG_TIDY_FIX option to ON
 #------------------------------------------------------------------------------
-if (CMAKE_VERSION VERSION_GREATER 3.6)
+if (CMAKE_VERSION VERSION_GREATER 3.6 AND NOT WIN32)
   option(CLANG_TIDY_FIX "Perform fixes for Clang-Tidy" OFF)
   
   ###################################
@@ -25,10 +25,12 @@ if (CMAKE_VERSION VERSION_GREATER 3.6)
                NAMES clang-tidy-13 clang-tidy-12 clang-tidy-11 clang-tidy-10 clang-tidy-9 clang-tidy-8 clang-tidy
                HINTS
                "${CMAKE_SOURCE_DIR}/tools/*/*/"
-               "$ENV{ProgramFiles}\\LLVM\\bin")
+               "$ENV{ProgramFiles}/LLVM/bin")
   
   if (CLANG_TIDY)
     file(GLOB_RECURSE ALL_CXX_SOURCE_FILES
+         ${CMAKE_SOURCE_DIR}/app/*.[chi]pp
+         ${CMAKE_SOURCE_DIR}/app/*.[ch]
          ${CMAKE_SOURCE_DIR}/apps/*.[chi]pp
          ${CMAKE_SOURCE_DIR}/apps/*.[h]
          ${CMAKE_SOURCE_DIR}/include/*.[chi]pp
@@ -50,7 +52,7 @@ if (CMAKE_VERSION VERSION_GREATER 3.6)
     find_package(Python3 QUIET COMPONENTS Interpreter)
     
     find_program(RUN_CLANG_TIDY
-                 NAMES run-clang-tidy-12.py run-clang-tidy-11.py run-clang-tidy-10.py run-clang-tidy.py
+                 NAMES run-clang-tidy-13 run-clang-tidy-12.py run-clang-tidy-11.py run-clang-tidy-10.py run-clang-tidy.py
                  HINTS
                  ${CMAKE_SOURCE_DIR}/tools/*/
                  "$ENV{ProgramFiles}\\LLVM\\share\\clang"
@@ -59,7 +61,7 @@ if (CMAKE_VERSION VERSION_GREATER 3.6)
     if (Python3_FOUND AND RUN_CLANG_TIDY)
       include(ProcessorCount)
       processorcount(CPU_CORES)
-      
+
       list(APPEND RUN_CLANG_TIDY_BIN_ARGS
            -clang-tidy-binary ${CLANG_TIDY}
            -p ${CMAKE_BINARY_DIR}
