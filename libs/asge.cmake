@@ -25,8 +25,8 @@ if (ENABLE_ASGE AND NOT TARGET ASGE)
   set_target_properties(ASGE PROPERTIES IMPORTED_GLOBAL TRUE)
 
   if(NOT ASGE_VERSION)
-    set(ASGE_VERSION "2.0.0-alpha")
-    set(ASGE_VERSION_EXTRA "+5")
+    set(ASGE_VERSION "3.2.0")
+    set(ASGE_VERSION_EXTRA "")
   endif()
 
   set(ASGE_BASEURL "https://github.com/HuxyUK/ASGE/releases/download/v${ASGE_VERSION}")
@@ -81,6 +81,7 @@ if (ENABLE_ASGE AND NOT TARGET ASGE)
                  asge${POSTFIX}.dll.a
                  asge${POSTFIX}.so
                  asge${POSTFIX}.dylib
+                 asge${POSTFIX}.lib
                  PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
     message(STATUS "libGameEngine: " ${libGameEngine})
     
@@ -102,36 +103,48 @@ if (ENABLE_ASGE AND NOT TARGET ASGE)
     find_library(libPhysFS++ REQUIRED NAMES physfscpp${POSTFIX} physfscpp-static${POSTFIX} PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
     find_library(libGLFW REQUIRED NAMES glfw3${POSTFIX} PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
     find_library(libGLAD REQUIRED NAMES glad${POSTFIX} PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
-    
+
     set(OpenGL_GL_PREFERENCE "GLVND")
     find_package(OpenGL REQUIRED)
     message(STATUS "libOpenGL:     " ${OPENGL_LIBRARIES})
-    
+
     find_library(libGameEngine REQUIRED
                  NAMES libGameEngine${POSTFIX}.a libGameEngine${POSTFIX}.lib GameEngine${POSTFIX}.lib asge${POSTFIX}
                  PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
     set_property(TARGET ASGE PROPERTY IMPORTED_LOCATION ${libGameEngine})
-    
+
     message(STATUS "libGLAD:       " ${libGLAD})
     message(STATUS "libGLFW:       " ${libGLFW})
     message(STATUS "libFreetype:   " ${libFreetype})
     message(STATUS "libPhysFS:     " ${libPhysFS})
     message(STATUS "libPhysFS++:   " ${libPhysFS++})
     message(STATUS "libGameEngine: " ${libGameEngine})
-    
+
+    if(ASGE_VERSION VERSION_GREATER_EQUAL "3.2.0")
+      find_package(OpenMP        REQUIRED)
+      find_library(libMSDFGen    REQUIRED NAMES msdfgen-core${POSTFIX} PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
+      find_library(libMSDFGenEXT REQUIRED NAMES msdfgen-ext${POSTFIX} PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
+      message(STATUS "libMSDFGen:    " ${libMSDFGen})
+      message(STATUS "libMSDFGenEXT: " ${libMSDFGenEXT})
+      message(STATUS "libOpenMP:     " ${OpenMP_CXX_LIBRARIES} )
+    endif()
+
     ## all platforms need these libraries
-    list(APPEND LINK_LIBS ${libGLAD} ${libGLFW} ${libFreetype} ${libPhysFS++} ${libPhysFS} ${OPENGL_LIBRARIES})
-    
+    list(APPEND LINK_LIBS
+            ${libGLAD} ${libGLFW} ${libFreetype} ${libPhysFS++}
+            ${libPhysFS} ${OPENGL_LIBRARIES} ${libMSDFGen}
+            ${libMSDFGenEXT} OpenMP::OpenMP_CXX)
+
     # mac specific libraries
     if (PLATFORM MATCHES "OSX")
       find_library(IOKIT IOKit)
       find_library(COCOA Cocoa)
       find_library(COREVIDEO CoreVideo)
-      
+
       message(STATUS "IOKit:        " ${IOKIT})
       message(STATUS "Cocoa:        " ${COCOA})
       message(STATUS "CoreVideo:    " ${COREVIDEO})
-      
+
       list(APPEND LINK_LIBS
            -lz -lbz2
            ${AUDIO_UNIT}
@@ -140,7 +153,7 @@ if (ENABLE_ASGE AND NOT TARGET ASGE)
            ${COREVIDEO}
            ${IOKIT} )
     endif ()
-    
+
     # linux specific libraries
     if (PLATFORM MATCHES "LINUX")
       find_package(X11 REQUIRED)
@@ -166,7 +179,7 @@ if (ENABLE_ASGE AND NOT TARGET ASGE)
            ${CMAKE_DL_LIBS}
            harfbuzz brotlidec pthread )   #threading
     endif ()
-    
+
     set_property(
         TARGET ASGE PROPERTY
         INTERFACE_LINK_LIBRARIES
