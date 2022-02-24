@@ -17,7 +17,7 @@ function(set_target_build_flags tgt)
             "-Wold-style-cast" "-Wunused" "-Wno-documentation"
             "-Woverloaded-virtual" "-Wpedantic" "-Wconversion"
             "-Wdouble-promotion" "-Wundef" "-Wnull-dereference"
-            "-Wno-c++98-compat" "-Wredundant-move"
+            "-Wno-c++98-compat" "-Wredundant-move" "-Wno-unused-parameter"
             "-Wpessimizing-move" "-Wno-c++98-compat-pedantic"
             "-Wno-documentation-unknown-command" "-Wno-double-promotion"
             "-Wno-newline-eof" "-Werror" "-ferror-limit=100")
