@@ -113,6 +113,7 @@ if (ENABLE_ASGE AND NOT TARGET ASGE)
                  PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
     set_property(TARGET ASGE PROPERTY IMPORTED_LOCATION ${libGameEngine})
 
+    ## useful debug messages to ensure libraries are found
     message(STATUS "libGLAD:       " ${libGLAD})
     message(STATUS "libGLFW:       " ${libGLFW})
     message(STATUS "libFreetype:   " ${libFreetype})
@@ -120,20 +121,19 @@ if (ENABLE_ASGE AND NOT TARGET ASGE)
     message(STATUS "libPhysFS++:   " ${libPhysFS++})
     message(STATUS "libGameEngine: " ${libGameEngine})
 
+    ## all platforms need these libraries
+    list(APPEND LINK_LIBS ${libGLAD} ${libGLFW} ${libFreetype} ${libPhysFS++} ${libPhysFS} ${OPENGL_LIBRARIES})
+
+    ## 3.2.0 introduced MSDF and OpenMP
     if(ASGE_VERSION VERSION_GREATER_EQUAL "3.2.0")
       find_package(OpenMP        REQUIRED)
       find_library(libMSDFGen    REQUIRED NAMES msdfgen-core${POSTFIX} PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
-      find_library(libMSDFGenEXT REQUIRED NAMES msdfgen-ext${POSTFIX} PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
+      find_library(libMSDFGenEXT REQUIRED NAMES msdfgen-ext${POSTFIX}  PATHS ${ASGE_LIB_DIRECTORY} NO_DEFAULT_PATH)
       message(STATUS "libMSDFGen:    " ${libMSDFGen})
       message(STATUS "libMSDFGenEXT: " ${libMSDFGenEXT})
       message(STATUS "libOpenMP:     " ${OpenMP_CXX_LIBRARIES} )
+      list(APPEND LINK_LIBS ${libMSDFGen} ${libMSDFGenEXT} OpenMP::OpenMP_CXX)
     endif()
-
-    ## all platforms need these libraries
-    list(APPEND LINK_LIBS
-            ${libGLAD} ${libGLFW} ${libFreetype} ${libPhysFS++}
-            ${libPhysFS} ${OPENGL_LIBRARIES} ${libMSDFGen}
-            ${libMSDFGenEXT} OpenMP::OpenMP_CXX)
 
     # mac specific libraries
     if (PLATFORM MATCHES "OSX")
